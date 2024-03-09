@@ -1,0 +1,22 @@
+table {
+    border-collapse: collapse;
+}
+
+td {
+    text-align: center;
+    outline: 1px solid #000;
+}
+
+ul li {
+    text-align: left;
+}
+
+.row__brand {
+    background: blue;
+    color: #fff;
+}
+
+.cell__model {
+    background: purple;
+    color: #fff;
+}
