@@ -7,13 +7,15 @@ export default class Table extends PureComponent {
 
   componentDidMount() {
     const selectItem = setInterval(() => {
-      let randomInt = Math.round(Math.random() * this.state.tableData.length);
-
+      let unactiveList = this.state.tableData.filter(item => !item.selected);
+      let randomInt = Math.round(Math.random() * (unactiveList.length-1));
+      let randomUnactiveItem = unactiveList[randomInt];
+      
       this.setState(
         {
-          tableData: this.state.tableData.map((item, index) => {
-            if(index === randomInt) item.selected = true;
-            return item;
+          tableData: this.state.tableData.map((item) => {
+          if(item === randomUnactiveItem) item.selected = true;
+          return item;
           })
         },
         () => {
@@ -26,7 +28,8 @@ export default class Table extends PureComponent {
             ) : false;
 
             selectedItems.length === this.state.tableData.length ?  clearInterval(this.state.selectItem) : false;
-        });
+        }
+      );
     }, 2000);
 
     this.setState({
