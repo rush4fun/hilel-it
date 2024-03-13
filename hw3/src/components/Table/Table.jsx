@@ -3,15 +3,11 @@ import "./style.sass";
 
 export default class Table extends PureComponent {
   
-  state = {...this.props};
+  state = {...this.props, borderWidth: '1px'};
 
   componentDidMount() {
-    console.log('didMount');
-
     const selectItem = setInterval(() => {
       let randomInt = Math.round(Math.random() * this.state.tableData.length);
-
-      console.log('selectItem');
 
       this.setState(
         {
@@ -25,7 +21,11 @@ export default class Table extends PureComponent {
 
           selectedItems.length === Math.ceil(this.state.tableData.length / 2) ? this.setState( { borderWidth: '10px' } ) : false;
 
-          selectedItems.length === this.state.tableData.length ? this.setState( { borderWidth: '20px' } ) : false;
+          selectedItems.length === this.state.tableData.length ?  ( 
+            this.setState( { borderWidth: '20px' } ) 
+            ) : false;
+
+            selectedItems.length === this.state.tableData.length ?  clearInterval(this.state.selectItem) : false;
         });
     }, 2000);
 
@@ -35,8 +35,6 @@ export default class Table extends PureComponent {
   }
 
   componentWillUnmount() {
-    console.log(`in componentWillUnmount List`);
-
     clearInterval(this.state.selectItem);
   }
 
