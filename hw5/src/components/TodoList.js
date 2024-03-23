@@ -31,6 +31,7 @@ export default function TodosList() {
 
     const handleRemoveLastItem = () => {
         setTodosCol3((prevState) => prevState.filter((item) => item.id !== todosCol3[todosCol3.length - 1].id));
+        service.delete(todosCol3[todosCol3.length - 1].id);
     };
 
     return (
