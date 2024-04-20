@@ -8,7 +8,7 @@ import service from '../../service/restusers';
 export default function User ({title, selectedUser, setSelectedUser, selectedUserRepo=0, disabledUser={}, setTotalScore, battleResult}) {
 
     const [user, setUser] = useState({});
-    const [isUserChosen, setIsUserChosen] = useState(false);
+    const [error, setError] = useState('');
     const [battleLabel, setBattleLabel] = useState();
 
     const {showUserScore} = useContext(UsersContext);
@@ -20,12 +20,14 @@ export default function User ({title, selectedUser, setSelectedUser, selectedUse
         const response = await service.getUser(formData.get('username'));
 
         if (response) {
-            if (disabledUser.login === response.login) {
-                setIsUserChosen(true);
+            if (disabledUser.login && (disabledUser.login === response.login)) {
+                setError('Username has already been chosen');
                 return false;
             } else {
-                setIsUserChosen(false);
+                setError('');
             }
+        } else {
+            setError('Username not exist');
         }
 
         setUser(response);
@@ -67,8 +69,7 @@ export default function User ({title, selectedUser, setSelectedUser, selectedUse
                     Choose <strong>{title}</strong> username:
                     </label>
                     <input className={!user ? "error" : ""} name="username" id="username" type="text" placeholder={title} required/>
-                    {!user ? <strong className="error">Username not exist</strong> : null}
-                    {isUserChosen ? <strong className="error">Username has already been chosen</strong> : null}
+                    {error ? <strong className="error">{error}</strong> : null}
                     <button type="submit">Submit</button>
                 </> : null } 
             </form>
