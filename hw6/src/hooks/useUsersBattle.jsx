@@ -12,6 +12,7 @@ export default function useUsersBattle() {
     const [secondUserTotalScore, setSecondUserTotalScore] = useState(-1);
     const [battleResult, setBattleResult] = useState({});
     const [showRestartBtn, setShowRestartBtn] = useState(false);
+    const [showUserRestartBtn, setShowUserRestartBtn] = useState(false);
 
     useEffect(() => {
         Object.keys(firstUser).length && Object.keys(secondUser).length ? setShowBtnBattle(true) : setShowBtnBattle(false);
@@ -46,6 +47,8 @@ export default function useUsersBattle() {
         battleResult,
         setBattleResult,
         showRestartBtn,
-        setShowRestartBtn
+        setShowRestartBtn,
+        showUserRestartBtn,
+        setShowUserRestartBtn
      };
   }

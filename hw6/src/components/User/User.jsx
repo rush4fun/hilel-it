@@ -4,39 +4,10 @@ import UsersContext from './../../contexts/UsersContext';
 import UserImage from './UserImage';
 import UserFormContent from './UserFormContent';
 
-import service from '../../service/restusers';
-
 export default function User ({title, selectedUser, setSelectedUser, selectedUserRepo=0, disabledUser={}, setTotalScore, battleResult}) {
 
     const [user, setUser] = useState({});
-    const [error, setError] = useState('');
     const [battleLabel, setBattleLabel] = useState();
-
-    const {showUserScore} = useContext(UsersContext);
-
-    const handleSubmitUser = async (e) => {
-        e.preventDefault();
-
-        let formData = new FormData(e.target);
-        const response = await service.getUser(formData.get('username'));
-
-        if (response) {
-            if (disabledUser.login && (disabledUser.login === response.login)) {
-                setError('Username has already been chosen');
-                return false;
-            } else {
-                setError('');
-            }
-        } else {
-            setError('Username not exist');
-        }
-
-        setUser(response);
-    }
-
-    const handleResetBtnClick = () => {
-        setUser({});
-    }
 
     useEffect(() => {
         if (user && Object.keys(user).length) {
@@ -47,6 +18,9 @@ export default function User ({title, selectedUser, setSelectedUser, selectedUse
     }, [user]);
 
     useEffect(() => {
+        if (battleResult === undefined) {
+            setBattleLabel(null);
+        }
         if (battleResult === true) {
           setBattleLabel(`Winner 🥳`);
         } else if (battleResult === false) {
@@ -57,11 +31,10 @@ export default function User ({title, selectedUser, setSelectedUser, selectedUse
     return (
         <div>
             {battleLabel ? <p>{battleLabel}</p> : null }
-            <form method="POST" onSubmit={handleSubmitUser}>
-                <UserImage selectedUser={selectedUser} user={user} handleResetBtnClick={handleResetBtnClick} selectedUserRepo={selectedUserRepo} setTotalScore={setTotalScore} />
-                <UserFormContent selectedUser={selectedUser} title={title} user={user} error={error}/>
-
-            </form>
+            <div className="user-wrapper">
+                <UserImage selectedUser={selectedUser} selectedUserRepo={selectedUserRepo} setTotalScore={setTotalScore} user={user} setUser={setUser}/>
+                <UserFormContent selectedUser={selectedUser} title={title} disabledUser={disabledUser} setUser={setUser}/>
+            </div>
         </div>
     )
 }

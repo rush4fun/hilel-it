@@ -13,6 +13,7 @@ export default function BtnBattle() {
     const {setSecondUserRepo} = useContext(UsersContext);
     const {setShowUserScore} = useContext(UsersContext);
     const {setShowRestartBtn} = useContext(UsersContext);
+    const {setShowUserRestartBtn} = useContext(UsersContext);
 
     const handleClick = async () => {
         const responseFirstUser = await service.getUserRepositories(firstUser.login);
@@ -34,6 +35,7 @@ export default function BtnBattle() {
         setShowUserScore(true);
         setShowBtnBattle(false);
         setShowRestartBtn(true);
+        setShowUserRestartBtn(false);
     }
 
     return showBtnBattle ? <button className="button" onClick={handleClick}>Battle!</button> : null

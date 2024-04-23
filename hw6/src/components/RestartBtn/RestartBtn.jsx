@@ -2,8 +2,6 @@ import React, {useContext} from 'react';
 
 import UsersContext from './../../contexts/UsersContext';
 
-import service from '../../service/restusers';
-
 export default function RestartBtn() {
     const {setFirstUser} = useContext(UsersContext);
     const {setSecondUser} = useContext(UsersContext);
